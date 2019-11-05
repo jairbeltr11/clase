@@ -9,6 +9,7 @@ from PIL import Image
 from PIL import ImageTk
 import time
 cont=0
+cont1=100
 prom=0
 
 placa = Arduino ('COM4')
@@ -76,20 +77,6 @@ def Leds_off():
                   'sensor1/led12': 'OFF'
                     
          })
-    
-def update_label():
-    global cont
-    cont=cont+1
-    ref = db.reference("sensor")
-    ref.update({
-                'sensor2': {
-                    'adc': cont +1,
-                    'valor': cont,
-                   
-                   
-            }
-         })
-    variable.set(cont)
 
 def adc_read():
     global prom
@@ -110,30 +97,33 @@ def adc_read():
         'sensor1/adc': prom
     })
 
-def save():
-    ref = db.reference('sensor')
+def update_label():
+    global cont1
+    cont1=cont1-2
+    print(cont1)
+    variable.set(cont1)
+    ventana.update()
+    ref = db.reference("sensor")
     ref.update({
-        'sensor3/message': 'hola'
-    })
-   
-   
- 
-
-valor.configure(textvariable=adc_data)
-valor.place(x=20, y=90)
-bot1=Button(marco1,text="prom_15",command=adc_read)
+                    'sensor1': {
+                        'valor': cont1,
+                 }
+             })
+valor2.configure(textvariable=adc_data)
+valor2.place(x=20, y=90)
+bot1=Button(text="prom_15",command=adc_read)
 bot1.place(x=20, y=160)
 
-valor2.configure(textvariable=variable)
-valor2.place(x=120, y=90)
-bot2=Button(marco1,text="LEDS_ON",command=Leds_on)
+bot2=Button(text="LEDS_ON",command=Leds_on)
 bot2.place(x=120, y=160)
 
-bot3=Button(marco1,text="LEDS_OFF",command=Leds_off)
+bot3=Button(text="LEDS_OFF",command=Leds_off)
 bot3.place(x=220, y=160)
-'''
-save_button=Button(marco1,text="save",command=save)
-save_button.place(x=170, y=160)
-'''
+
+valor.configure(textvariable=variable)
+valor.place(x=320, y=90)
+bot4=Button(marco1,text="cont",command=update_label)
+bot4.place(x=320, y=160)
+
 
 ventana.mainloop()
