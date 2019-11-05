@@ -62,6 +62,20 @@ def Leds_on():
                   'sensor1/led12': 'ON'
                     
          })
+
+def Leds_off():
+
+    led5.write(0) 
+    led6.write(0)
+    led7.write(0)
+    
+    ref = db.reference("sensor")
+    ref.update({
+                  'sensor1/led10': 'OFF',
+                  'sensor1/led11': 'OFF',
+                  'sensor1/led12': 'OFF'
+                    
+         })
     
 def update_label():
     global cont
@@ -112,8 +126,11 @@ bot1.place(x=20, y=160)
 
 valor2.configure(textvariable=variable)
 valor2.place(x=120, y=90)
-start_button2=Button(marco1,text="LEDS_ON",command=Leds_on)
-start_button2.place(x=120, y=160)
+bot2=Button(marco1,text="LEDS_ON",command=Leds_on)
+bot2.place(x=120, y=160)
+
+bot3=Button(marco1,text="LEDS_OFF",command=Leds_off)
+bot3.place(x=220, y=160)
 '''
 save_button=Button(marco1,text="save",command=save)
 save_button.place(x=170, y=160)
