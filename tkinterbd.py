@@ -21,6 +21,7 @@ led3 = placa.get_pin('d:6:p')
 led4 = placa.get_pin('d:9:p')
 led5 = placa.get_pin('d:10:p')
 led6 = placa.get_pin('d:11:p')
+led7 = placa.get_pin('d:12:o')
 time.sleep(0.1)
 ventana = Tk()
 ventana.geometry('1280x800')
@@ -37,7 +38,7 @@ firebase_admin.initialize_app(cred, {
 marco1 = Frame(ventana, bg="pink", highlightthickness=1, width=1280, height=800, bd= 5)
 marco1.place(x = 0,y = 0)
 b=Label(marco1,text="")
-img = Image.open("C:/Users/user/Desktop/indice.png")
+img = Image.open("C:/Users/user/Desktop/gatito.png")
 img = img.resize((150,150), Image.ANTIALIAS)
 photoImg=  ImageTk.PhotoImage(img)
 b.configure(image=photoImg)
@@ -48,7 +49,20 @@ variable=StringVar()
 valor2= Label(marco1, bg='cadet blue', font=("Arial Bold", 15), fg="white", width=5)
 adc_data=StringVar()
 
+def Leds_on():
 
+    led5.write(1) 
+    led6.write(1)
+    led7.write(1)
+    
+    ref = db.reference("sensor")
+    ref.update({
+                  'sensor1/led10': 'ON',
+                  'sensor1/led11': 'ON',
+                  'sensor1/led12': 'ON'
+                    
+         })
+    
 def update_label():
     global cont
     cont=cont+1
@@ -96,11 +110,11 @@ valor.place(x=20, y=90)
 bot1=Button(marco1,text="prom_15",command=adc_read)
 bot1.place(x=20, y=160)
 
-'''valor2.configure(textvariable=variable)
-valor2.place(x=130, y=90)
-start_button2=Button(marco1,text="adc_data",command=update_label)
-start_button2.place(x=80, y=160)
-
+valor2.configure(textvariable=variable)
+valor2.place(x=120, y=90)
+start_button2=Button(marco1,text="LEDS_ON",command=Leds_on)
+start_button2.place(x=120, y=160)
+'''
 save_button=Button(marco1,text="save",command=save)
 save_button.place(x=170, y=160)
 '''
